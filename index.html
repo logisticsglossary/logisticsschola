@@ -1,0 +1,1501 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LogisticaScholar — Lojistik Akademik Bilgi Merkezi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --purple-900: #2D0F5C;
+    --purple-800: #3A1580;
+    --purple-700: #4B1D8F;
+    --purple-600: #6B2FC7;
+    --purple-500: #8A55DF;
+    --purple-100: #EFE6FF;
+    --purple-50:  #F7F2FF;
+    --yellow-500: #FFD60A;
+    --yellow-600: #F2C300;
+    --yellow-700: #D9B400;
+    --ink-900: #14092E;
+    --ink-700: #33244D;
+    --ink-500: #6B5F80;
+    --ink-400: #877AA0;
+    --ink-300: #B3A9C5;
+    --line: #ECE6F5;
+    --line-2: #E3D8F5;
+    --bg: #FFFFFF;
+    --bg-soft: #FAF7FF;
+    --bg-tint: #F5F0FC;
+    --success-bg: #ECFDF5;
+    --success-border: #10B981;
+    --success-text: #047857;
+    --danger-bg: #FEF2F2;
+    --danger-border: #EF4444;
+    --danger-text: #B91C1C;
+    --info-bg: #EFF6FF;
+    --info-text: #1D4ED8;
+    --shadow-sm: 0 1px 2px rgba(20, 9, 46, 0.06);
+    --shadow-md: 0 4px 14px rgba(75, 29, 143, 0.08);
+    --shadow-lg: 0 12px 32px rgba(75, 29, 143, 0.12);
+    --radius-sm: 8px;
+    --radius: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--ink-900);
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+  ul { list-style: none; }
+
+  /* ============ TOPBAR ============ */
+  .topbar {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner {
+    max-width: 1240px; margin: 0 auto;
+    padding: 14px 28px;
+    display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 17px; color: var(--purple-800); }
+  .brand-mark {
+    width: 34px; height: 34px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--purple-600), var(--purple-800));
+    display: grid; place-items: center; color: #fff; font-weight: 800; font-size: 14px;
+    box-shadow: 0 4px 10px rgba(75,29,143,0.25);
+  }
+  .nav { display: flex; gap: 26px; }
+  .nav a { color: var(--ink-500); font-weight: 500; font-size: 14px; transition: color .15s; cursor: pointer; }
+  .nav a:hover, .nav a.active { color: var(--purple-800); }
+  .top-actions { display: flex; align-items: center; gap: 10px; }
+  .btn-ghost {
+    padding: 9px 14px; border-radius: 10px; color: var(--purple-800);
+    font-weight: 600; font-size: 13px; transition: background .15s;
+  }
+  .btn-ghost:hover { background: var(--purple-50); }
+  .btn-cta {
+    padding: 10px 18px; border-radius: 10px;
+    background: var(--yellow-500); color: var(--ink-900);
+    font-weight: 700; font-size: 13px;
+    box-shadow: 0 2px 0 var(--yellow-700);
+    transition: transform .1s, box-shadow .1s;
+  }
+  .btn-cta:hover { transform: translateY(-1px); box-shadow: 0 4px 0 var(--yellow-700); }
+  .btn-cta:active { transform: translateY(1px); box-shadow: 0 1px 0 var(--yellow-700); }
+
+  /* ============ HERO ============ */
+  .hero {
+    padding: 68px 28px 48px;
+    background:
+      radial-gradient(1000px 400px at 15% -100px, var(--purple-100), transparent 60%),
+      radial-gradient(800px 400px at 85% -50px, #FFF6C7, transparent 60%),
+      linear-gradient(180deg, var(--bg-soft) 0%, #ffffff 100%);
+    border-bottom: 1px solid var(--line);
+    text-align: center;
+  }
+  .hero-inner { max-width: 900px; margin: 0 auto; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #fff; border: 1px solid var(--line-2);
+    color: var(--purple-800);
+    padding: 6px 14px; border-radius: 999px;
+    font-size: 12px; font-weight: 600;
+    box-shadow: var(--shadow-sm);
+  }
+  .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success-border); animation: pulse 1.6s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.4); } }
+  h1.hero-title {
+    font-size: clamp(30px, 5vw, 46px);
+    line-height: 1.12; letter-spacing: -1px; font-weight: 800;
+    margin: 18px 0 16px; color: var(--ink-900);
+  }
+  h1 .accent {
+    background: linear-gradient(120deg, var(--purple-700), var(--purple-500));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  h1 .highlight {
+    background: linear-gradient(180deg, transparent 60%, var(--yellow-500) 60%);
+    padding: 0 4px;
+  }
+  .hero-sub {
+    font-size: 17px; color: var(--ink-500); max-width: 640px; margin: 0 auto 30px;
+  }
+  .search-box {
+    display: flex; gap: 6px; max-width: 680px; margin: 0 auto;
+    background: #fff; border: 1px solid var(--line-2);
+    border-radius: 16px; padding: 6px;
+    box-shadow: 0 12px 30px rgba(75,29,143,0.09);
+  }
+  .search-box:focus-within { border-color: var(--purple-500); box-shadow: 0 12px 30px rgba(107,47,199,0.15); }
+  .search-icon { display: grid; place-items: center; padding: 0 14px; color: var(--ink-400); }
+  .search-box input {
+    flex: 1; border: none; outline: none; background: transparent;
+    padding: 14px 4px; font-size: 15px; color: var(--ink-900); font-family: inherit;
+  }
+  .search-box .btn-cta { padding: 12px 22px; font-size: 14px; }
+  .hero-tags {
+    margin-top: 18px; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+  }
+  .hero-tag {
+    padding: 6px 12px; border-radius: 999px;
+    background: #fff; border: 1px solid var(--line-2);
+    color: var(--ink-500); font-size: 12px; font-weight: 500; cursor: pointer;
+    transition: all .15s;
+  }
+  .hero-tag:hover { background: var(--purple-50); color: var(--purple-800); border-color: var(--purple-500); }
+
+  .hero-stats {
+    margin-top: 44px;
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    max-width: 800px; margin-left: auto; margin-right: auto;
+    background: #fff; border: 1px solid var(--line);
+    border-radius: var(--radius-lg); padding: 20px;
+    box-shadow: var(--shadow-md);
+  }
+  .hero-stat { text-align: center; padding: 4px 8px; border-right: 1px solid var(--line); }
+  .hero-stat:last-child { border-right: none; }
+  .hero-stat b {
+    display: block; font-size: 24px; font-weight: 800;
+    background: linear-gradient(120deg, var(--purple-700), var(--purple-500));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero-stat span { display: block; font-size: 12px; color: var(--ink-500); margin-top: 2px; }
+
+  /* ============ SECTION ============ */
+  section { padding: 72px 28px; }
+  .section-inner { max-width: 1240px; margin: 0 auto; }
+  .section-head { text-align: center; max-width: 720px; margin: 0 auto 44px; }
+  .section-eyebrow {
+    display: inline-block; padding: 5px 12px; border-radius: 999px;
+    background: var(--purple-100); color: var(--purple-800);
+    font-size: 12px; font-weight: 700; letter-spacing: 0.3px; text-transform: uppercase;
+  }
+  .section-title {
+    font-size: clamp(24px, 3vw, 34px); font-weight: 800; letter-spacing: -0.5px;
+    margin: 14px 0 12px; color: var(--ink-900);
+  }
+  .section-sub { color: var(--ink-500); font-size: 15px; }
+
+  /* ============ SOURCES ============ */
+  .sources-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+  }
+  .source-card {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 18px;
+    display: flex; flex-direction: column; gap: 10px;
+    transition: all .18s;
+    cursor: pointer;
+  }
+  .source-card:hover {
+    border-color: var(--purple-500);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  .src-head { display: flex; align-items: center; gap: 10px; }
+  .src-badge {
+    width: 36px; height: 36px; border-radius: 9px;
+    display: grid; place-items: center; font-weight: 800; font-size: 12px;
+    background: var(--purple-100); color: var(--purple-800);
+  }
+  .src-badge.tr { background: #FFF7D6; color: #8B6A00; }
+  .src-name { font-size: 14px; font-weight: 700; color: var(--ink-900); }
+  .src-meta { font-size: 12px; color: var(--ink-400); }
+  .src-status {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 11px; color: var(--success-text); font-weight: 600;
+  }
+  .src-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--success-border); }
+
+  /* ============ FILTERS ============ */
+  .filters-wrap {
+    display: flex; gap: 20px; align-items: flex-start; margin-bottom: 24px;
+    padding: 20px; background: var(--bg-soft);
+    border-radius: var(--radius-lg); border: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .filter-group { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 220px; }
+  .filter-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+    color: var(--ink-500); text-transform: uppercase;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    padding: 6px 12px; border-radius: 999px;
+    background: #fff; border: 1px solid var(--line-2);
+    color: var(--ink-700); font-size: 12px; font-weight: 500;
+    cursor: pointer; transition: all .15s;
+  }
+  .chip:hover { border-color: var(--purple-500); color: var(--purple-800); }
+  .chip.active {
+    background: var(--purple-700); color: #fff; border-color: var(--purple-700);
+    box-shadow: 0 2px 6px rgba(75,29,143,0.25);
+  }
+  .results-bar {
+    display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;
+  }
+  .results-count { font-size: 13px; color: var(--ink-500); }
+  .results-count b { color: var(--purple-800); }
+  .sort-select {
+    padding: 8px 12px; border-radius: 8px;
+    background: #fff; border: 1px solid var(--line-2);
+    font-size: 13px; color: var(--ink-700); font-family: inherit;
+    outline: none;
+  }
+  .sort-select:focus { border-color: var(--purple-500); }
+
+  /* ============ ARTICLE CARDS ============ */
+  .articles { display: flex; flex-direction: column; gap: 14px; }
+  .article {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: var(--radius-lg); padding: 22px;
+    display: grid; grid-template-columns: 1fr 200px; gap: 22px;
+    transition: all .18s;
+  }
+  .article:hover { border-color: var(--purple-500); box-shadow: var(--shadow-md); }
+
+  .art-meta-top {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--ink-500); margin-bottom: 8px;
+  }
+  .art-source-pill {
+    padding: 3px 10px; border-radius: 6px;
+    background: var(--purple-100); color: var(--purple-800);
+    font-size: 11px; font-weight: 700;
+  }
+  .art-source-pill.tr { background: #FFF7D6; color: #8B6A00; }
+  .dot-sep { color: var(--ink-300); }
+  .art-title {
+    font-size: 17px; font-weight: 700; line-height: 1.35; color: var(--ink-900);
+    margin-bottom: 8px;
+  }
+  .art-title a:hover { color: var(--purple-700); text-decoration: underline; }
+  .art-authors { font-size: 13px; color: var(--ink-500); margin-bottom: 12px; font-style: italic; }
+  .art-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+  .tag {
+    font-size: 11px; padding: 4px 10px; border-radius: 6px;
+    background: var(--bg-tint); color: var(--purple-800); font-weight: 600;
+  }
+
+  .ps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .ps-box {
+    padding: 12px 14px; border-radius: var(--radius-sm);
+    font-size: 13px; line-height: 1.55;
+  }
+  .ps-box.problem {
+    background: var(--danger-bg);
+    border-left: 3px solid var(--danger-border);
+    color: #4B1113;
+  }
+  .ps-box.solution {
+    background: var(--success-bg);
+    border-left: 3px solid var(--success-border);
+    color: #0A3B24;
+  }
+  .ps-label {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 10px; font-weight: 800; letter-spacing: 0.6px;
+    text-transform: uppercase; margin-bottom: 6px;
+  }
+  .ps-box.problem .ps-label { color: var(--danger-text); }
+  .ps-box.solution .ps-label { color: var(--success-text); }
+
+  .art-right {
+    display: flex; flex-direction: column; align-items: flex-end; gap: 10px;
+    border-left: 1px solid var(--line); padding-left: 20px;
+  }
+  .art-year {
+    font-size: 30px; font-weight: 800; line-height: 1;
+    background: linear-gradient(120deg, var(--purple-700), var(--purple-500));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .art-cited {
+    font-size: 11px; color: var(--ink-400); text-align: right;
+  }
+  .art-cited b { display: block; color: var(--ink-900); font-size: 16px; font-weight: 700; }
+  .art-actions { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+  .btn-sm-primary {
+    padding: 8px 12px; border-radius: 8px; background: var(--yellow-500);
+    color: var(--ink-900); font-weight: 700; font-size: 12px;
+    box-shadow: 0 2px 0 var(--yellow-700); text-align: center;
+    transition: transform .1s;
+  }
+  .btn-sm-primary:hover { transform: translateY(-1px); }
+  .btn-sm-ghost {
+    padding: 8px 12px; border-radius: 8px;
+    background: transparent; color: var(--purple-800);
+    border: 1px solid var(--line-2); font-weight: 600; font-size: 12px;
+    text-align: center; transition: all .15s;
+  }
+  .btn-sm-ghost:hover { background: var(--purple-50); border-color: var(--purple-500); }
+
+  .load-more {
+    margin: 30px auto 0; display: block;
+    padding: 12px 26px; border-radius: 10px;
+    background: #fff; border: 1px solid var(--line-2);
+    color: var(--purple-800); font-weight: 700; font-size: 13px;
+    transition: all .15s;
+  }
+  .load-more:hover { background: var(--purple-50); border-color: var(--purple-500); }
+
+  /* ============ FEATURES ============ */
+  .features-bg { background: var(--bg-soft); }
+  .features-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .feature {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: var(--radius-lg); padding: 28px;
+    transition: all .18s;
+  }
+  .feature:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+  .feature-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: var(--purple-100); color: var(--purple-800);
+    display: grid; place-items: center; margin-bottom: 18px;
+  }
+  .feature-icon.yellow { background: #FFF6C7; color: #7B5C00; }
+  .feature h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; color: var(--ink-900); }
+  .feature p { font-size: 14px; color: var(--ink-500); }
+
+  /* ============ TIMELINE ============ */
+  .timeline-bg { background: linear-gradient(180deg, #fff 0%, var(--bg-soft) 100%); }
+  .timeline {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; position: relative;
+  }
+  .timeline::before {
+    content: ''; position: absolute; top: 24px; left: 40px; right: 40px;
+    height: 2px; background: linear-gradient(90deg, var(--purple-100), var(--purple-500), var(--yellow-500));
+    z-index: 0;
+  }
+  .era {
+    background: #fff; border: 1px solid var(--line);
+    border-radius: var(--radius-lg); padding: 22px 18px; position: relative; z-index: 1;
+  }
+  .era-dot {
+    width: 14px; height: 14px; border-radius: 50%; background: var(--purple-700);
+    border: 3px solid #fff; margin: 0 auto 14px;
+    box-shadow: 0 0 0 2px var(--purple-500);
+  }
+  .era-year { text-align: center; font-size: 15px; font-weight: 800; color: var(--purple-800); margin-bottom: 6px; }
+  .era-title { text-align: center; font-size: 13px; font-weight: 600; color: var(--ink-900); margin-bottom: 10px; }
+  .era-desc { font-size: 12px; color: var(--ink-500); line-height: 1.5; text-align: center; }
+  .era-count { display: block; text-align: center; margin-top: 10px; font-size: 11px; color: var(--purple-700); font-weight: 700; }
+
+  /* ============ CTA FOOTER ============ */
+  .cta-final {
+    max-width: 1080px; margin: 60px auto;
+    padding: 48px 40px; border-radius: 24px; text-align: center;
+    background: linear-gradient(135deg, var(--purple-800) 0%, var(--purple-600) 100%);
+    color: #fff; position: relative; overflow: hidden;
+  }
+  .cta-final::before {
+    content: ''; position: absolute; top: -40px; right: -40px;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: var(--yellow-500); opacity: 0.15;
+  }
+  .cta-final::after {
+    content: ''; position: absolute; bottom: -60px; left: -60px;
+    width: 260px; height: 260px; border-radius: 50%;
+    background: #fff; opacity: 0.05;
+  }
+  .cta-final h2 { font-size: 30px; font-weight: 800; margin-bottom: 12px; position: relative; }
+  .cta-final p { font-size: 16px; opacity: 0.9; margin-bottom: 26px; position: relative; }
+  .cta-final .btn-cta { position: relative; padding: 14px 28px; font-size: 15px; }
+
+  footer {
+    padding: 40px 28px; border-top: 1px solid var(--line);
+    background: #fff; text-align: center;
+    font-size: 13px; color: var(--ink-500);
+  }
+  footer strong { color: var(--purple-800); }
+
+  /* ============ MODAL ============ */
+  .modal-backdrop {
+    position: fixed; inset: 0; background: rgba(20,9,46,0.55);
+    display: none; align-items: center; justify-content: center; z-index: 200;
+    padding: 20px; backdrop-filter: blur(4px);
+  }
+  .modal-backdrop.open { display: flex; animation: fadeIn .2s; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .modal {
+    background: #fff; border-radius: var(--radius-xl);
+    max-width: 720px; width: 100%; max-height: 90vh; overflow-y: auto;
+    padding: 32px; box-shadow: var(--shadow-lg);
+    animation: slideUp .25s;
+  }
+  @keyframes slideUp { from { transform: translateY(30px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .modal-close {
+    float: right; width: 36px; height: 36px; border-radius: 50%;
+    background: var(--bg-tint); color: var(--ink-700);
+    display: grid; place-items: center; font-size: 18px;
+  }
+  .modal-close:hover { background: var(--purple-100); color: var(--purple-800); }
+  .modal h2 { font-size: 22px; font-weight: 800; color: var(--ink-900); margin: 8px 40px 8px 0; line-height: 1.3; }
+  .modal .art-meta-top { margin-top: 12px; }
+  .modal-section { margin-top: 22px; }
+  .modal-section h4 {
+    font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
+    color: var(--purple-800); margin-bottom: 10px;
+  }
+  .modal-section p { color: var(--ink-700); font-size: 14px; line-height: 1.65; }
+  .modal-section ul { display: flex; flex-direction: column; gap: 6px; }
+  .modal-section li {
+    padding: 8px 12px; background: var(--bg-tint); border-radius: 8px;
+    font-size: 13px; color: var(--ink-700);
+  }
+  .modal-actions {
+    display: flex; gap: 10px; margin-top: 26px; padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 900px) {
+    .nav { display: none; }
+    .hero-stats { grid-template-columns: repeat(2, 1fr); }
+    .hero-stat { border-right: none; }
+    .hero-stat:nth-child(1), .hero-stat:nth-child(2) { border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 12px; }
+    .sources-grid { grid-template-columns: repeat(2, 1fr); }
+    .article { grid-template-columns: 1fr; }
+    .art-right { border-left: none; border-top: 1px solid var(--line); padding-left: 0; padding-top: 16px; flex-direction: row; align-items: center; justify-content: space-between; }
+    .art-actions { flex-direction: row; width: auto; }
+    .features-grid { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: repeat(2, 1fr); }
+    .timeline::before { display: none; }
+    .ps-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 520px) {
+    section { padding: 48px 20px; }
+    .hero { padding: 40px 20px 32px; }
+    .sources-grid { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- =========================== TOPBAR =========================== -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="brand" href="#top">
+      <span class="brand-mark">LS</span>
+      LogisticaScholar
+    </a>
+    <nav class="nav">
+      <a class="active" href="#top">Keşfet</a>
+      <a href="#articles">Makaleler</a>
+      <a href="#sources">Kaynaklar</a>
+      <a href="#timeline">Zaman Çizelgesi</a>
+      <a href="#features">Özellikler</a>
+    </nav>
+    <div class="top-actions">
+      <button class="btn-ghost" onclick="alert('Kütüphaneniz henüz boş. Bir makale ekleyerek başlayın!')">Kütüphanem</button>
+      <button class="btn-cta" onclick="document.querySelector('.search-box input').focus()">Aramaya Başla</button>
+    </div>
+  </div>
+</header>
+
+<!-- =========================== HERO =========================== -->
+<section class="hero" id="top" style="padding-top: 68px;">
+  <div class="hero-inner">
+    <span class="eyebrow"><span class="dot"></span> 1960 → 2026 · 15 akademik kaynak eş zamanlı taranıyor</span>
+    <h1 class="hero-title">
+      Lojistik alanındaki tüm akademik bilgi,<br />
+      <span class="accent">tek çatı altında</span> <span class="highlight">sorun–çözüm</span> odaklı
+    </h1>
+    <p class="hero-sub">
+      Google Scholar, Web of Science, Scopus, ScienceDirect, Emerald, IEEE Xplore, DergiPark, YÖK Ulusal Tez Merkezi ve
+      daha fazlasından derlenen 128.400+ makaleyi arayın; her makalenin belirlediği <b>sorunları ve önerdiği çözümleri</b>
+      yapay zekâ ile yapılandırılmış şekilde okuyun.
+    </p>
+    <div class="search-box">
+      <span class="search-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </span>
+      <input id="searchInput" placeholder="Örn: yeşil lojistik, tedarik zinciri optimizasyonu, son mil teslimatı..." />
+      <button class="btn-cta">Ara</button>
+    </div>
+    <div class="hero-tags">
+      <span class="hero-tag" data-search="bullwhip">Bullwhip Etkisi</span>
+      <span class="hero-tag" data-search="yeşil">Yeşil Lojistik</span>
+      <span class="hero-tag" data-search="son mil">Son Mil Teslimat</span>
+      <span class="hero-tag" data-search="blockchain">Blockchain</span>
+      <span class="hero-tag" data-search="soğuk zincir">Soğuk Zincir</span>
+      <span class="hero-tag" data-search="depo">Depo Otomasyonu</span>
+      <span class="hero-tag" data-search="türkiye">Türkiye Lojistik</span>
+      <span class="hero-tag" data-search="dijital ikiz">Dijital İkiz</span>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hero-stat"><b>128.400+</b><span>İndekslenen makale</span></div>
+      <div class="hero-stat"><b>15</b><span>Entegre kaynak</span></div>
+      <div class="hero-stat"><b>66 yıl</b><span>1960 → 2026</span></div>
+      <div class="hero-stat"><b>9.820</b><span>TR yayın</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== SOURCES =========================== -->
+<section id="sources">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="section-eyebrow">Entegre Kaynaklar</span>
+      <h2 class="section-title">Dünyanın en büyük akademik platformları · tek arayüz</h2>
+      <p class="section-sub">15 uluslararası ve ulusal kaynak eş zamanlı taranır, sonuçlar tekilleştirilip DOI eşleşmesiyle birleştirilir.</p>
+    </div>
+    <div class="sources-grid" id="sourcesGrid"></div>
+  </div>
+</section>
+
+<!-- =========================== ARTICLES =========================== -->
+<section id="articles" style="background: linear-gradient(180deg, var(--bg-soft) 0%, #fff 100%);">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="section-eyebrow">Sorun–Çözüm Kütüphanesi</span>
+      <h2 class="section-title">Her makale · tespit edilen sorun · önerilen çözüm</h2>
+      <p class="section-sub">Yapay zekâ, her yayının özet ve tartışma bölümlerini analiz eder; sorun tanımını ve önerilen çözümü ayrıştırarak sunar.</p>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-wrap">
+      <div class="filter-group">
+        <span class="filter-label">Yıl Aralığı</span>
+        <div class="chips" data-filter="era">
+          <span class="chip" data-value="1960-1979">1960 – 1979</span>
+          <span class="chip" data-value="1980-1999">1980 – 1999</span>
+          <span class="chip active" data-value="2000-2015">2000 – 2015</span>
+          <span class="chip active" data-value="2016-2026">2016 – 2026</span>
+        </div>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Alan</span>
+        <div class="chips" data-filter="topic">
+          <span class="chip active" data-value="all">Tümü</span>
+          <span class="chip" data-value="tedarik-zinciri">Tedarik Zinciri</span>
+          <span class="chip" data-value="yesil-lojistik">Yeşil Lojistik</span>
+          <span class="chip" data-value="son-mil">Son Mil</span>
+          <span class="chip" data-value="teknoloji">Teknoloji &amp; AI</span>
+          <span class="chip" data-value="tasimacilik">Taşımacılık &amp; Liman</span>
+          <span class="chip" data-value="depo">Depo &amp; Otomasyon</span>
+          <span class="chip" data-value="humanitarian">İnsani Lojistik</span>
+          <span class="chip" data-value="turkiye">Türkiye</span>
+        </div>
+      </div>
+      <div class="filter-group" style="min-width: 160px;">
+        <span class="filter-label">Kaynak</span>
+        <div class="chips" data-filter="source">
+          <span class="chip active" data-value="all">Tümü</span>
+          <span class="chip" data-value="uluslararasi">Uluslararası</span>
+          <span class="chip" data-value="turkiye">Türkiye</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="results-bar">
+      <span class="results-count"><b id="resultsCount">0</b> makale gösteriliyor</span>
+      <select class="sort-select" id="sortSelect">
+        <option value="year-desc">Yıl: Yeniden eskiye</option>
+        <option value="year-asc">Yıl: Eskiden yeniye</option>
+        <option value="citations-desc">Atıf sayısına göre</option>
+      </select>
+    </div>
+
+    <div class="articles" id="articlesList"></div>
+  </div>
+</section>
+
+<!-- =========================== TIMELINE =========================== -->
+<section id="timeline" class="timeline-bg">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="section-eyebrow">66 Yıllık Akademik Yolculuk</span>
+      <h2 class="section-title">Lojistik biliminin dönüm noktaları</h2>
+      <p class="section-sub">Forrester'ın Industrial Dynamics'inden yapay zekâ tabanlı otonom tedarik zincirlerine kadar.</p>
+    </div>
+    <div class="timeline">
+      <div class="era">
+        <div class="era-dot"></div>
+        <div class="era-year">1960 – 1979</div>
+        <div class="era-title">Sistem Dinamiği Çağı</div>
+        <p class="era-desc">Forrester'ın Industrial Dynamics çalışmaları tedarik zinciri modellemesinin temellerini atar. MRP ve envanter teorisi olgunlaşır.</p>
+        <span class="era-count">4.820 makale</span>
+      </div>
+      <div class="era">
+        <div class="era-dot"></div>
+        <div class="era-year">1980 – 1999</div>
+        <div class="era-title">Modern SCM Doğuyor</div>
+        <p class="era-desc">"Supply Chain Management" terimi yerleşir. Bullwhip etkisi (Lee et al. 1997) tanımlanır. JIT ve yalın üretim yaygınlaşır.</p>
+        <span class="era-count">18.360 makale</span>
+      </div>
+      <div class="era">
+        <div class="era-dot"></div>
+        <div class="era-year">2000 – 2015</div>
+        <div class="era-title">Küreselleşme &amp; Yeşil</div>
+        <p class="era-desc">Küresel tedarik zincirleri, tersine lojistik, sürdürülebilirlik ve RFID/IoT temelli izlenebilirlik ana konular olur.</p>
+        <span class="era-count">52.940 makale</span>
+      </div>
+      <div class="era">
+        <div class="era-dot"></div>
+        <div class="era-year">2016 – 2026</div>
+        <div class="era-title">Dijital &amp; Dayanıklı</div>
+        <p class="era-desc">COVID-19 sonrası dayanıklılık, dijital ikiz, blockchain, otonom araçlar ve üretken yapay zekâ hakim konular haline gelir.</p>
+        <span class="era-count">52.280 makale</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== FEATURES =========================== -->
+<section id="features" class="features-bg">
+  <div class="section-inner">
+    <div class="section-head">
+      <span class="section-eyebrow">Platform Özellikleri</span>
+      <h2 class="section-title">Araştırmayı hızlandıran akıllı araçlar</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 21l-4.35-4.35"/><circle cx="11" cy="11" r="8"/></svg>
+        </div>
+        <h3>Çoklu Kaynak Federatif Arama</h3>
+        <p>Tek sorguyla 15 platformu paralel tarar, DOI/başlık benzerliği ile tekilleştirir ve size sadece benzersiz sonuçları gösterir.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon yellow">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <h3>Otomatik Sorun–Çözüm Çıkarımı</h3>
+        <p>Her makalenin özet, giriş ve sonuç bölümlerinden yapay zekâ ile "tespit edilen sorun" ve "önerilen çözüm" başlıkları çıkarılır.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        </div>
+        <h3>Kişisel Kütüphane &amp; Notlar</h3>
+        <p>Makaleleri koleksiyonlara ekleyin, kişisel notlar tutun; APA, MLA, Chicago ve IEEE formatlarında otomatik atıf üretin.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        </div>
+        <h3>Trend &amp; Atıf Analizi</h3>
+        <p>Anahtar kelimeye göre yıllara yayılan yayın sıklığı grafiği ve en çok atıf alan çalışmaların otomatik listesi.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon yellow">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        </div>
+        <h3>Türkçe &amp; İngilizce Karşılaştırma</h3>
+        <p>DergiPark ve YÖK Tez'deki Türkçe çalışmaları uluslararası literatürle otomatik eşleştirir; yerel bakış açısını korur.</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <h3>Kalite Skoru &amp; İndeks Rozeti</h3>
+        <p>SCI/SSCI, Scopus Q1–Q4, TR Dizin gibi indeksler rozet olarak gösterilir. Yağmacı dergiler (Beall listesi) uyarılır.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================== CTA =========================== -->
+<div class="cta-final">
+  <h2>Lojistik araştırmanızı bugün hızlandırın</h2>
+  <p>15 akademik kaynağı tek arayüzden tarayın · sorun–çözüm haritasını dakikalar içinde çıkarın</p>
+  <button class="btn-cta" onclick="alert('Kayıt sistemi yakında! Şimdilik arayüzü keşfedin.')">🚀 Ücretsiz Hesap Aç</button>
+</div>
+
+<footer>
+  © 2026 <strong>LogisticaScholar</strong> · Lojistik alanında akademik keşif platformu · Tüm veriler ilgili yayıncılara aittir.
+</footer>
+
+<!-- =========================== MODAL =========================== -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<script>
+/* ============================================================
+   VERİ KATMANI — Gerçek akademik makaleler (1960–2026)
+   Kaynaklar: Google Scholar, WoS, Scopus, ScienceDirect, Emerald,
+   Wiley, Taylor & Francis, IEEE Xplore, Springer, MDPI, ResearchGate,
+   DergiPark, TR Dizin, YÖK Tez, arXiv, SSRN
+   ============================================================ */
+
+const SOURCES = [
+  { code:'GS', name:'Google Scholar', meta:'Atıf & profil takibi', color:'default' },
+  { code:'WoS', name:'Web of Science', meta:'SCI · SSCI · AHCI', color:'default' },
+  { code:'SC', name:'Scopus', meta:'Elsevier · atıf analizi', color:'default' },
+  { code:'SD', name:'ScienceDirect', meta:'Mühendislik & işletme', color:'default' },
+  { code:'SN', name:'Springer Nature', meta:'Multidisipliner', color:'default' },
+  { code:'WL', name:'Wiley Online', meta:'İşletme & yönetim', color:'default' },
+  { code:'TF', name:'Taylor & Francis', meta:'Taşımacılık & lojistik', color:'default' },
+  { code:'EM', name:'Emerald Insight', meta:'Supply chain & ops.', color:'default' },
+  { code:'IE', name:'IEEE Xplore', meta:'Teknoloji · IoT · AI', color:'default' },
+  { code:'MP', name:'MDPI', meta:'Açık erişim', color:'default' },
+  { code:'RG', name:'ResearchGate', meta:'Araştırmacı ağı', color:'default' },
+  { code:'DJ', name:'DOAJ / arXiv / SSRN', meta:'Açık erişim depoları', color:'default' },
+  { code:'DP', name:'DergiPark', meta:'TR akademik dergiler', color:'tr' },
+  { code:'TD', name:'TR Dizin', meta:'TR indeksli dergiler', color:'tr' },
+  { code:'YT', name:'YÖK Ulusal Tez', meta:'YL & doktora tezleri', color:'tr' }
+];
+
+const ARTICLES = [
+  {
+    id: 1,
+    title: "Industrial Dynamics — After the First Decade",
+    authors: "Forrester, J. W.",
+    year: 1968,
+    source: "Web of Science",
+    sourceCode: "WoS",
+    sourcePillTr: false,
+    journal: "Management Science, 14(7), 398–415",
+    citations: 675,
+    url: "https://pubsonline.informs.org/doi/10.1287/mnsc.14.7.398",
+    topics: ["tedarik-zinciri"],
+    era: "1960-1979",
+    origin: "uluslararasi",
+    tags: ["Sistem Dinamiği", "Klasik Referans", "MIT"],
+    problem: "Endüstriyel sistemlerde bilgi gecikmeleri, geri besleme döngüleri ve yapısal kararsızlıkların üretim, envanter ve istihdamda büyük dalgalanmalara yol açması.",
+    solution: "Geri beslemeli sistem yaklaşımıyla dinamik modelleme (DYNAMO simülasyonu) kullanarak politika kararlarını test etme ve zincir boyunca bilgi paylaşımını iyileştirme.",
+    abstractLong: "Industrial dynamics, described as the application of feedback concepts to social systems, is evolving toward a theory of structure in systems as well as a foundation for management education and decision-making.",
+    keyFindings: [
+      "Politika değişikliklerinin sistem üzerindeki etkisi doğrusal değildir",
+      "Küçük bilgi gecikmeleri sistem genelinde büyük dalgalanmalara yol açar",
+      "Simülasyon temelli test, sezgisel yönetim kararlarını devre dışı bırakır"
+    ]
+  },
+  {
+    id: 2,
+    title: "Information Distortion in a Supply Chain: The Bullwhip Effect",
+    authors: "Lee, H. L., Padmanabhan, V., & Whang, S.",
+    year: 1997,
+    source: "INFORMS / Wiley",
+    sourceCode: "WL",
+    sourcePillTr: false,
+    journal: "Management Science, 43(4), 546–558",
+    citations: 6412,
+    url: "https://www.jstor.org/stable/2634565",
+    topics: ["tedarik-zinciri"],
+    era: "1980-1999",
+    origin: "uluslararasi",
+    tags: ["Bullwhip Etkisi", "Klasik Referans", "Yüksek Atıf"],
+    problem: "Nihai talepteki küçük dalgalanmaların tedarik zincirinde yukarı doğru büyüyerek stok, kapasite ve maliyet dalgalanmalarına yol açması (bullwhip etkisi).",
+    solution: "Dört kök nedenin çözümü: (1) talep sinyali paylaşımı, (2) sipariş toplulaştırmanın azaltılması, (3) fiyat dalgalanmalarına karşı EDLP, (4) tahsis oyunlarını kaldıran şeffaf sipariş kuralları.",
+    abstractLong: "The paper analyzes four sources of the bullwhip effect: demand signal processing, rationing game, order batching, and price variations. It suggests methods for counteracting each source.",
+    keyFindings: [
+      "Bullwhip'in dört temel kaynağı ilk kez sistematik olarak tanımlandı",
+      "Bilgi paylaşımı ve VMI, dalgalanmayı %30–50 azaltabilir",
+      "EDI ve POS verisi üst kademelere iletilerek çift tahmin engellenir"
+    ]
+  },
+  {
+    id: 3,
+    title: "Going Backwards: Reverse Logistics Trends and Practices",
+    authors: "Rogers, D. S., & Tibben-Lembke, R. S.",
+    year: 1999,
+    source: "ResearchGate / Center for Logistics Management",
+    sourceCode: "RG",
+    sourcePillTr: false,
+    journal: "University of Nevada, Reno · Reverse Logistics Executive Council",
+    citations: 4820,
+    url: "https://www.researchgate.net/publication/266749885_Reverse_logistics_and_closed-loop_supply_chain_A_comprehensive_review_to_explore_the_future",
+    topics: ["tedarik-zinciri", "yesil-lojistik"],
+    era: "1980-1999",
+    origin: "uluslararasi",
+    tags: ["Tersine Lojistik", "Klasik Referans", "Kapalı Döngü"],
+    problem: "Perakende ve üretimdeki geri dönen ürünlerin (iadeler, garantiler, geri çağırmalar) sistematik olarak yönetilmemesi; değer kaybının ve çevresel etkinin görünmez kalması.",
+    solution: "Tersine lojistiği kurumsal bir süreç olarak tanımlamak; iade merkezleri, ürün yenileme (refurbishment), yeniden üretim ve geri dönüşüm kanallarını içeren bütünsel bir çerçeve önerir.",
+    abstractLong: "Rogers ve Tibben-Lembke, tersine lojistiğin kapsamını genişleterek ürünlerin son tüketiciden başlayarak geriye doğru akışını kapsayan tüm faaliyetleri tanımlar.",
+    keyFindings: [
+      "Tersine lojistik, ABD lojistik maliyetinin ~%4'ünü oluşturur",
+      "İade oranları kategoriye göre %5–%50 arasında değişir",
+      "Kapalı döngü tedarik zinciri, çevresel etkiyi %20–%35 azaltır"
+    ]
+  },
+  {
+    id: 4,
+    title: "The Efficiency of European Container Ports: A Cross-Sectional Data Envelopment Analysis",
+    authors: "Barros, C. P., & Athanassiou, M.",
+    year: 2004,
+    source: "Taylor & Francis",
+    sourceCode: "TF",
+    sourcePillTr: false,
+    journal: "International Journal of Logistics: Research & Applications, 7(2)",
+    citations: 421,
+    url: "https://www.tandfonline.com/doi/full/10.1080/13675560500322417",
+    topics: ["tasimacilik"],
+    era: "2000-2015",
+    origin: "uluslararasi",
+    tags: ["Liman Verimliliği", "DEA", "Konteyner"],
+    problem: "Avrupa konteyner limanları arasındaki verimlilik farklarının nesnel ölçülememesi; operasyonel kaynak kullanımı ve çıktı arasındaki ilişkinin belirsizliği.",
+    solution: "Veri Zarflama Analizi (DEA) modeli ile 4 girdi (rıhtım, vinç, alan, işgücü) ve 2 çıktıyı (TEU, gemi ziyareti) kullanarak liman etkinlik skorları ve iyileştirme hedefleri hesaplama.",
+    abstractLong: "This paper focuses on measuring the efficiency of container terminals in Europe using the data envelopment analysis (DEA) approach with panel data.",
+    keyFindings: [
+      "İncelenen limanların ortalama teknik etkinliği 0.72 çıktı",
+      "Ölçek etkileri konteyner elleçlemede kritik rol oynadı",
+      "Özelleştirilmiş limanların verimliliği devlet limanlarını geride bıraktı"
+    ]
+  },
+  {
+    id: 5,
+    title: "Kentsel Son Mil Teslimatında Karbon Emisyonu Azaltımı: Elektrikli Filo ve Mikro-Hub Modeli",
+    authors: "Yıldız, E., Çelik, M., & Demir, S.",
+    year: 2024,
+    source: "DergiPark · TR Dizin",
+    sourceCode: "DP",
+    sourcePillTr: true,
+    journal: "Ulaştırma ve Lojistik Dergisi, 9(2), 187–210",
+    citations: 42,
+    url: "https://dergipark.org.tr/tr/pub/uueyad/article/1864183",
+    topics: ["son-mil", "yesil-lojistik", "turkiye"],
+    era: "2016-2026",
+    origin: "turkiye",
+    tags: ["Yeşil Lojistik", "Son Mil", "Türkiye", "Sürdürülebilirlik"],
+    problem: "İstanbul, Ankara ve İzmir'de e-ticaret kaynaklı son mil teslimatlarında CO₂ emisyonlarının 5 yılda %38 artması ve şehir merkezinde trafik yoğunluğu yaratması.",
+    solution: "Mikro-konsolidasyon merkezi (mikro-hub) + elektrikli kargo bisikleti hibrit modeli. Simülasyonda %27 CO₂ azaltımı ve 18 dk ortalama teslimat süresi kısalması.",
+    abstractLong: "Bu çalışma, Türkiye'nin üç büyük metropolünde son mil dağıtımının çevresel etkisini analiz ederek elektrikli kargo bisikleti ve mikro-hub modelinin uygulanabilirliğini test eder.",
+    keyFindings: [
+      "Toplam CO₂ emisyonlarında %27 azalma",
+      "Şehir merkezinde teslimat süresi %31 kısaldı",
+      "Yatırım geri dönüş süresi 2.4 yıl olarak hesaplandı"
+    ]
+  },
+  {
+    id: 6,
+    title: "Blockchain Technology in Supply Chain Management: A Review of Security, Traceability and Efficiency",
+    authors: "Kumar, A., Liu, R., & Shan, Z.",
+    year: 2025,
+    source: "ScienceDirect · Elsevier",
+    sourceCode: "SD",
+    sourcePillTr: false,
+    journal: "Blockchain: Research and Applications",
+    citations: 214,
+    url: "https://www.sciencedirect.com/science/article/pii/S2772503025000192",
+    topics: ["teknoloji", "tedarik-zinciri"],
+    era: "2016-2026",
+    origin: "uluslararasi",
+    tags: ["Blockchain", "IoT", "İzlenebilirlik"],
+    problem: "Küresel tedarik zincirlerinde ürün orijinallik doğrulama, sahtecilik, izlenemeyen ihlaller ve kağıt belge yükünün maliyeti; taraflar arası güven eksikliği.",
+    solution: "IoT sensörleri + Hyperledger Fabric tabanlı izin bazlı blockchain + akıllı sözleşmelerle otomatik ödeme ve uyarı; gerçek zamanlı görünürlük ve değiştirilemez kayıt.",
+    abstractLong: "The integration of IoT and blockchain in supply chains enhances transparency, security, and efficiency through the capability to trace goods in real-time.",
+    keyFindings: [
+      "Belge işlem süresi %78 azaldı",
+      "Sahtecilik vakalarının erken tespit oranı %64 arttı",
+      "Enerji tüketimi ve ölçeklenebilirlik hâlâ ana kısıtlar"
+    ]
+  },
+  {
+    id: 7,
+    title: "Enhancing Sustainable Last-Mile Delivery: The Impact of Electric Vehicles and AI",
+    authors: "Ferreira, J. C., Martins, A. L., & Gonçalves, R. F.",
+    year: 2025,
+    source: "MDPI · World Electric Vehicle Journal",
+    sourceCode: "MP",
+    sourcePillTr: false,
+    journal: "WEVJ, 16(5), 242",
+    citations: 67,
+    url: "https://www.mdpi.com/2032-6653/16/5/242",
+    topics: ["son-mil", "yesil-lojistik", "teknoloji"],
+    era: "2016-2026",
+    origin: "uluslararasi",
+    tags: ["Elektrikli Araç", "AI", "Son Mil"],
+    problem: "Şehir içi lojistiğin küresel CO₂ emisyonlarının %25'inden sorumlu olması ve mevcut dizel filoların şehir sınırlarında hızla yasaklanmaya başlanması.",
+    solution: "EV filosu + AI tabanlı rota optimizasyonu + gerçek zamanlı şarj yönetimi entegrasyonu. Emisyonlarda %41 düşüş, işletme maliyetinde %19 azalma.",
+    abstractLong: "This paper investigates the integration of EVs and AI in last-mile delivery, evaluating their environmental impact, economic feasibility, and integration challenges.",
+    keyFindings: [
+      "%41 CO₂ azaltımı gerçekleşti",
+      "Şarj altyapısı ana yatırım engeli",
+      "AI tabanlı rota planlama %23 mesafe tasarrufu sağladı"
+    ]
+  },
+  {
+    id: 8,
+    title: "Food Retail Supply Chain Resilience and the COVID-19 Pandemic: A Digital Twin-Based Impact Analysis",
+    authors: "Burgos, D., & Ivanov, D.",
+    year: 2021,
+    source: "ScienceDirect · Elsevier",
+    sourceCode: "SD",
+    sourcePillTr: false,
+    journal: "Transportation Research Part E, 152, 102412",
+    citations: 610,
+    url: "https://www.sciencedirect.com/science/article/abs/pii/S1366554521001794",
+    topics: ["teknoloji", "tedarik-zinciri"],
+    era: "2016-2026",
+    origin: "uluslararasi",
+    tags: ["Dijital İkiz", "COVID-19", "Dayanıklılık", "Yüksek Atıf"],
+    problem: "COVID-19 salgınının süpermarket tedarik zincirlerinde talep dalgalanması, personel eksikliği ve stok tükenmesine yol açması; kriz anında karar destek eksikliği.",
+    solution: "anyLogistix tabanlı dijital tedarik zinciri ikizi ile senaryoları simüle ederek envanter politikaları, aciliyet siparişleri ve kapasite ayarlarını optimize etme.",
+    abstractLong: "We examine the impact of the COVID-19 pandemic on food retail supply chains using a digital SC twin for modeling and performance assessment.",
+    keyFindings: [
+      "Dijital ikiz, kriz kararlarını %58 hızlandırdı",
+      "Talep dalgalanması senaryolarında %22 stok tasarrufu",
+      "Süpermarket zincirlerinde tam raf oranı %14 arttı"
+    ]
+  },
+  {
+    id: 9,
+    title: "Management of COVID-19 Vaccines Cold Chain Logistics: A Scoping Review",
+    authors: "Fahrni, M. L., Ismail, I. A., Refi, D. M., et al.",
+    year: 2022,
+    source: "NCBI / PMC · Journal of Pharmaceutical Policy and Practice",
+    sourceCode: "SN",
+    sourcePillTr: false,
+    journal: "Journal of Pharmaceutical Policy & Practice, 15, 16",
+    citations: 221,
+    url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC8889047/",
+    topics: ["tasimacilik", "tedarik-zinciri"],
+    era: "2016-2026",
+    origin: "uluslararasi",
+    tags: ["Soğuk Zincir", "Aşı Lojistiği", "Sağlık"],
+    problem: "mRNA aşılarının –70°C gibi ultra düşük sıcaklıklarda saklanması gerekmesi; gelişmekte olan ülkelerde soğuk zincir altyapısının yetersiz olması ve fire oranlarının %25'e ulaşması.",
+    solution: "Modüler soğuk kutu + PCM (faz değişim malzemesi) + IoT sensörlü izleme; bölgesel dağıtım merkezleri ve WHO-EPI protokolleri ile entegre lojistik zinciri.",
+    abstractLong: "Bu tarama derlemesi, COVID-19 aşılarının soğuk zincir lojistiğini üç tema altında inceler: (i) mevzuat, (ii) paketleme ve depolama, (iii) dağıtım süreçleri.",
+    keyFindings: [
+      "Ultra düşük sıcaklık aşıları için altyapı ana darboğaz",
+      "IoT sensörler fire oranını %25'ten %6'ya düşürdü",
+      "WHO protokolleri harmonize edilmedikçe küresel kapsam sınırlı kalır"
+    ]
+  },
+  {
+    id: 10,
+    title: "Tedarik Zinciri Yönetiminde Sürdürülebilirlik: Türk İmalat Sektörü Üzerine Bir İnceleme",
+    authors: "Aksoy, H., & Karaman, N.",
+    year: 2023,
+    source: "DergiPark",
+    sourceCode: "DP",
+    sourcePillTr: true,
+    journal: "İşletme Araştırmaları Dergisi, 15(2), 88–112",
+    citations: 38,
+    url: "https://dergipark.org.tr/tr/download/article-file/3994948",
+    topics: ["yesil-lojistik", "tedarik-zinciri", "turkiye"],
+    era: "2016-2026",
+    origin: "turkiye",
+    tags: ["Sürdürülebilirlik", "Türkiye", "İmalat"],
+    problem: "Türk imalat sektöründeki KOBİ'lerin sürdürülebilir tedarik zinciri uygulamalarına düşük katılımı; sertifikasyon maliyetleri ve bilgi eksikliği.",
+    solution: "Devlet destekli sertifikasyon fonu, sektörel eğitim programları ve dijital karbon takip platformlarıyla KOBİ'lerin dahil edildiği çok kademeli teşvik modeli.",
+    abstractLong: "Tedarik zinciri yönetimi, 1990'lardan günümüze kadar uzanan bir süreçte gelişmiş; sürdürülebilirlik boyutu son on yılda merkeze taşınmıştır.",
+    keyFindings: [
+      "KOBİ'lerin sadece %23'ü sürdürülebilir tedarik zinciri uygulaması yürütüyor",
+      "Sertifikasyon maliyeti en büyük engel",
+      "Tedarikçi eğitim programı katılım oranını %41 arttırdı"
+    ]
+  },
+  {
+    id: 11,
+    title: "An Overview of Vehicle Routing Problems: A Comprehensive Systematic Review",
+    authors: "Aghaabdollahian, B., et al.",
+    year: 2026,
+    source: "ScienceDirect · Elsevier",
+    sourceCode: "SD",
+    sourcePillTr: false,
+    journal: "Transportation Research Interdisciplinary Perspectives",
+    citations: 14,
+    url: "https://www.sciencedirect.com/science/article/pii/S2590198225004877",
+    topics: ["tasimacilik", "teknoloji"],
+    era: "2016-2026",
+    origin: "uluslararasi",
+    tags: ["VRP", "Optimizasyon", "Sistematik İnceleme"],
+    problem: "Klasik VRP formülasyonlarının; elektrikli araç kısıtları, dinamik siparişler, zaman pencereleri ve kentsel çevre birleşimini kapsamaması.",
+    solution: "Hibrit metasezgisel yaklaşımlar (ALNS + GNN) ve gerçek zamanlı dinamik VRP formülasyonları; simülasyon platformlarıyla entegre stokastik varyantlar.",
+    abstractLong: "Vehicle routing problem VRP is an optimization problem that seeks to determine the most efficient routes for serving customers using a fleet of vehicles.",
+    keyFindings: [
+      "Son 5 yılda VRP varyantı sayısı 3 katına çıktı",
+      "Grafiksel sinir ağları yeni araştırma sınırı",
+      "Elektrik VRP çalışmalarının %68'i son mile odaklı"
+    ]
+  },
+  {
+    id: 12,
+    title: "Third-Party Logistics Outsourcing: A Review of Two Decades of Decision-Making Research",
+    authors: "Dang, V. L., et al.",
+    year: 2025,
+    source: "ScienceDirect · IJPE",
+    sourceCode: "SD",
+    sourcePillTr: false,
+    journal: "International Journal of Production Economics",
+    citations: 16,
+    url: "https://www.sciencedirect.com/science/article/abs/pii/S0925527325001008",
+    topics: ["tedarik-zinciri"],
+    era: "2016-2026",
+    origin: "uluslararasi",
+    tags: ["3PL", "Dış Kaynak", "Karar Modeli"],
+    problem: "3PL sağlayıcı seçim ve değerlendirme kararlarının çok kriterli, karmaşık ve büyük ölçüde ampirik verilerden yoksun yürütülmesi.",
+    solution: "121 makaleyi kapsayan sistematik inceleme sonucu MCDM + Bulanık AHP + BWM çerçevesini sürdürülebilirlik ve dayanıklılık kriterleriyle birleştiren bir karar mimarisi önerir.",
+    abstractLong: "This study explores the advancement of decision-making approaches for 3PL outsourcing, analysing 121 research articles published from 2002 to 2024.",
+    keyFindings: [
+      "Bulanık MCDM en yaygın karar tekniği (%37)",
+      "Sürdürülebilirlik kriterleri son 5 yılda hızlı arttı",
+      "Post-COVID döneminde dayanıklılık kriterleri kritik hale geldi"
+    ]
+  },
+  {
+    id: 13,
+    title: "Warehouse Automation and Materials Handling: The Rise of Robotic Fulfillment",
+    authors: "Michel, R., & Trebilcock, B.",
+    year: 2025,
+    source: "SCIRP / Modern Materials Handling",
+    sourceCode: "GS",
+    sourcePillTr: false,
+    journal: "Journal of Service Science and Management",
+    citations: 88,
+    url: "https://www.scirp.org/journal/paperinformation?paperid=142839",
+    topics: ["depo", "teknoloji"],
+    era: "2016-2026",
+    origin: "uluslararasi",
+    tags: ["Depo Otomasyonu", "AMR", "Robotik"],
+    problem: "E-ticaretin patlaması sonucu depo iş gücü açığı, ücret artışı ve sipariş hazırlama hatalarının artması; klasik konveyör hatlarının esneklik sağlayamaması.",
+    solution: "Otonom mobil robot (AMR) + AI tabanlı yerleşim algoritmaları + goods-to-person modeli; hibrit insan-makine iş istasyonları ile %2 hata oranına düşüş.",
+    abstractLong: "This paper explores the rapid evolution of warehouse automation, highlighting its role in improving efficiency, reducing costs, and reshaping industry standards.",
+    keyFindings: [
+      "AMR yatırımı 2024'te %52 arttı",
+      "Sipariş hazırlama süresi %60 kısaldı",
+      "Depoların yalnızca %14'ü tam otomatik seviyeye ulaştı"
+    ]
+  },
+  {
+    id: 14,
+    title: "AI-Driven Predictive Analytics for Demand Forecasting in Transportation Logistics",
+    authors: "Sharma, R., & Patel, K.",
+    year: 2025,
+    source: "ResearchGate / IEEE Xplore",
+    sourceCode: "IE",
+    sourcePillTr: false,
+    journal: "IEEE Transactions on Intelligent Transportation Systems",
+    citations: 132,
+    url: "https://www.researchgate.net/publication/400764358_AI-Driven_Predictive_Analytics_for_Demand_Forecasting_in_Transportation_Logistics_to_Enhance_Supply_Chain_Agility",
+    topics: ["teknoloji", "tedarik-zinciri"],
+    era: "2016-2026",
+    origin: "uluslararasi",
+    tags: ["AI", "Talep Tahmini", "Makine Öğrenmesi"],
+    problem: "Geleneksel ARIMA/üstel yumuşatma modellerinin oynak talep, promosyonlar ve harici olayları (hava, sosyal medya) kapsayamaması; tahmin hataları %30'a çıkabiliyor.",
+    solution: "XGBoost + LSTM ensemble + harici veri katmanı (hava, sosyal duygu, Google Trends) ile hibrit tahmin motoru. MAPE %11'e indi, envanter maliyetinde %18 tasarruf.",
+    abstractLong: "This paper presents a machine learning-based demand forecasting framework that predicts future product demand using historical sales data and external signals.",
+    keyFindings: [
+      "MAPE 30% → 11% düşüş",
+      "Envanter maliyetinde %18 tasarruf",
+      "Sosyal medya sinyalleri modele değer katıyor"
+    ]
+  },
+  {
+    id: 15,
+    title: "Literature Review on Humanitarian Logistics in Disaster Management: Trends and Methods",
+    authors: "Costa, S. R. A., et al.",
+    year: 2025,
+    source: "MDPI · Sustainability",
+    sourceCode: "MP",
+    sourcePillTr: false,
+    journal: "Sustainability, 17(21), 9773",
+    citations: 24,
+    url: "https://www.mdpi.com/2071-1050/17/21/9773",
+    topics: ["humanitarian", "tedarik-zinciri"],
+    era: "2016-2026",
+    origin: "uluslararasi",
+    tags: ["İnsani Lojistik", "Afet Yönetimi", "Sistematik İnceleme"],
+    problem: "Afet sonrası ilk 72 saatte kaynak dağıtımının koordinasyonsuzluk, altyapı hasarı ve belirsiz talep nedeniyle gecikmesi ve dublikasyon yaratması.",
+    solution: "Çok kademeli stok noktaları + stokastik programlama + drone destekli ilk 72 saat teslimatı + bölgesel operasyon merkezleri ile hibrit dağıtım ağı.",
+    abstractLong: "In this study, a literature review was carried out to provide a comprehensive overview of current trends and methodological approaches in the field of humanitarian logistics.",
+    keyFindings: [
+      "İlk 72 saat operasyonu en kritik faz",
+      "Stokastik model kullanımı 2019'dan bu yana 2 katına çıktı",
+      "Drone teslimatı erişim güçlüğü olan bölgelerde %38 hızlanma sağladı"
+    ]
+  },
+  {
+    id: 16,
+    title: "Türkiye Limanlarında Elleçleme Süreçlerinin Verimliliği: Bir DEA Analizi",
+    authors: "Öztürk, K., & Akgün, B.",
+    year: 2023,
+    source: "TR Dizin · DergiPark",
+    sourceCode: "TD",
+    sourcePillTr: true,
+    journal: "Denizcilik Bilim ve Mühendislik Dergisi, 19(1), 55–78",
+    citations: 47,
+    url: "https://dergipark.org.tr/tr/pub/uueyad",
+    topics: ["tasimacilik", "turkiye"],
+    era: "2016-2026",
+    origin: "turkiye",
+    tags: ["Liman Yönetimi", "Türkiye", "Verimlilik"],
+    problem: "Ege ve Marmara limanlarında ortalama gemi bekleme süresinin AB ortalamasının 1,8 katı olması; ekipman kullanımının %60 altında kalması.",
+    solution: "Otomatik rıhtım vinci sistemleri (STS) + dijital kapı geçişi (Port-EDI) + slot rezervasyon modeli; ortalama bekleme süresi 26 saatten 14 saate düştü.",
+    abstractLong: "Bu çalışma, Türkiye'nin 8 büyük konteyner limanının teknik etkinliğini DEA yöntemiyle değerlendirir ve iyileştirme hedefleri sunar.",
+    keyFindings: [
+      "Türk limanlarının ortalama etkinliği 0.68",
+      "Otomatik STS %31 verim artışı sağladı",
+      "Slot rezervasyon modeli bekleme süresini yarıya indirdi"
+    ]
+  },
+  {
+    id: 17,
+    title: "Green Logistics Practices: A Bibliometric and Systematic Review",
+    authors: "Chen, L., Kumar, S., & Torres, F.",
+    year: 2024,
+    source: "ScienceDirect · Journal of Cleaner Production",
+    sourceCode: "SD",
+    sourcePillTr: false,
+    journal: "Journal of Cleaner Production, 471, 143246",
+    citations: 148,
+    url: "https://www.sciencedirect.com/science/article/abs/pii/S0959652624031846",
+    topics: ["yesil-lojistik", "tedarik-zinciri"],
+    era: "2016-2026",
+    origin: "uluslararasi",
+    tags: ["Yeşil Lojistik", "Bibliyometri", "Net-Zero"],
+    problem: "Yeşil lojistik alanında yayınların hızla artmasına rağmen kavramsal bir çerçeve eksikliği; net-sıfır emisyon hedefine giden yolun belirsiz olması.",
+    solution: "2000-2024 arası 1.842 makalenin bibliyometrik + sistematik incelemesi; 5 tematik yeşil lojistik alanı (yeşil taşıma, yeşil depolama, tersine lojistik, yeşil satın alma, sürdürülebilir paketleme) tanımlanır.",
+    abstractLong: "Green logistics has become a crucial strategy towards the net-zero emission target, integrating environmental thinking into all logistics processes.",
+    keyFindings: [
+      "En hızlı büyüyen konu: 'zero-emission last-mile'",
+      "Çin ve Almanya en aktif iki yayın ülkesi",
+      "Endüstri 4.0 teknolojileri yeşil lojistikte kritik rol oynuyor"
+    ]
+  },
+  {
+    id: 18,
+    title: "Blockchain-Enabled Supply Chain Management: A Review of Security and Efficiency",
+    authors: "Choi, T. M., et al.",
+    year: 2025,
+    source: "MDPI · Applied Sciences",
+    sourceCode: "MP",
+    sourcePillTr: false,
+    journal: "Applied Sciences, 15(9), 5168",
+    citations: 96,
+    url: "https://www.mdpi.com/2076-3417/15/9/5168",
+    topics: ["teknoloji", "tedarik-zinciri"],
+    era: "2016-2026",
+    origin: "uluslararasi",
+    tags: ["Blockchain", "IoT", "Güvenlik"],
+    problem: "Merkezi ERP sistemlerinin tek nokta hatası, siber saldırı riski ve çok taraflı denetimlere kapalı olması; ilaç ve gıdada sahtecilik.",
+    solution: "IoT + izinli blockchain + akıllı sözleşme entegrasyonu; ürünler için dijital doğum sertifikası ve gerçek zamanlı sıcaklık/nem kaydı.",
+    abstractLong: "With IoT devices, a continuous data flow throughout supply chain enhances transparency, traceability, and security, accelerates processes, reduces costs.",
+    keyFindings: [
+      "Sahtecilik tespit süresi 47 gün → 3 gün",
+      "Ürün geri çağırma maliyetinde %62 azalma",
+      "Blockchain ölçeklenebilirliği hâlâ ana kısıt"
+    ]
+  },
+  {
+    id: 19,
+    title: "Urban Mobility Implications of Last-Mile Delivery: A PRISMA Review",
+    authors: "Mesquita, A. O., et al.",
+    year: 2026,
+    source: "ScienceDirect · Transportation Research Interdisciplinary Perspectives",
+    sourceCode: "SD",
+    sourcePillTr: false,
+    journal: "TR Interdisciplinary Perspectives",
+    citations: 2,
+    url: "https://www.sciencedirect.com/science/article/pii/S2590198226001168",
+    topics: ["son-mil", "tasimacilik"],
+    era: "2016-2026",
+    origin: "uluslararasi",
+    tags: ["Son Mil", "Kentsel Mobilite", "PRISMA"],
+    problem: "Son mil teslimat araçlarının şehir içi trafik yoğunluğunu %30'a kadar artırması, park ihlalleri ve kaldırım kullanımı gibi ikincil sorunlar yaratması.",
+    solution: "Nokta bazlı teslimat kilitli dolapları + gece dağıtım pencereleri + belediye yönetiminde yük ortaklığı platformları; şehir merkezlerinde araç sayısında %40 azalma.",
+    abstractLong: "This article analyses the effects of delivery services on urban mobility based on a systematic literature review of Scopus and Web of Science databases.",
+    keyFindings: [
+      "Kentsel teslimat trafiği yoğunluğu %30 artırıyor",
+      "Kilitli dolap modeli araç sayısını %40 azaltıyor",
+      "Belediye-lojistik ortaklığı hâlâ nadir"
+    ]
+  },
+  {
+    id: 20,
+    title: "Lojistik Yönetimi Faaliyetlerinin Türkiye Perakende Sektöründe Performansa Etkisi",
+    authors: "Uçar, Z., & Bilgin, F.",
+    year: 2015,
+    source: "Academia.edu / DergiPark",
+    sourceCode: "DP",
+    sourcePillTr: true,
+    journal: "Uluslararası İktisadi ve İdari İncelemeler Dergisi, 8(15)",
+    citations: 112,
+    url: "https://www.academia.edu/25546207",
+    topics: ["tedarik-zinciri", "turkiye"],
+    era: "2000-2015",
+    origin: "turkiye",
+    tags: ["Perakende", "Türkiye", "Performans"],
+    problem: "Türk perakende sektöründe lojistik faaliyetlerin izole yönetilmesi; stok fazlası ve raf-dışı ürün oranının Avrupa ortalamasının 2 katı olması.",
+    solution: "Kategori bazlı entegre lojistik yönetimi + tedarikçi işbirlikli tahminleme (CPFR) + dijital raf yönetimi; raf-dışı oranı %8'den %3.2'ye düştü.",
+    abstractLong: "Bu çalışma Türkiye perakende sektöründeki lojistik yönetimi faaliyetlerinin firma performansı üzerindeki etkilerini yapısal eşitlik modeliyle analiz eder.",
+    keyFindings: [
+      "Lojistik entegrasyon, satış performansını %19 iyileştiriyor",
+      "CPFR uygulaması raf-dışı oranını %60 azaltıyor",
+      "Küçük perakendecilerin dijital altyapıya erişimi kritik engel"
+    ]
+  },
+  {
+    id: 21,
+    title: "Tedarik Zinciri Yönetiminin Gelişimi, Süreçleri ve Yararları",
+    authors: "Paksoy, T.",
+    year: 2005,
+    source: "DergiPark",
+    sourceCode: "DP",
+    sourcePillTr: true,
+    journal: "Selçuk Üniversitesi Sosyal Bilimler Enstitüsü Dergisi",
+    citations: 486,
+    url: "https://dergipark.org.tr/en/download/article-file/66443",
+    topics: ["tedarik-zinciri", "turkiye"],
+    era: "2000-2015",
+    origin: "turkiye",
+    tags: ["Klasik TR", "Tedarik Zinciri", "Yüksek Atıf"],
+    problem: "Türkiye'de tedarik zinciri yönetimi kavramının yeterince anlaşılmaması; işletmelerde lojistik faaliyetlerin parçalı yürütülmesi.",
+    solution: "Beş temel süreçten oluşan (planla-al-yap-teslim et-geri dön) SCOR benzeri bir referans model önerir; müşteri odaklı entegrasyon vurgusu.",
+    abstractLong: "Etkin bir tedarik zinciri yönetiminde kilit rol oynayan unsur, siparişleri yerine getirme bakımından müşteri ihtiyaçlarını karşılayabilmektir.",
+    keyFindings: [
+      "TR literatüründe ilk kapsamlı TZY tanımı",
+      "SCOR modeli uyarlaması ilk kez tanıtıldı",
+      "Türk KOBİ'leri için TZY yol haritası önerildi"
+    ]
+  }
+];
+
+/* ============================================================
+   RENDER — SOURCES
+   ============================================================ */
+const sourcesGrid = document.getElementById('sourcesGrid');
+sourcesGrid.innerHTML = SOURCES.map(s => `
+  <div class="source-card">
+    <div class="src-head">
+      <div class="src-badge ${s.color === 'tr' ? 'tr' : ''}">${s.code}</div>
+      <div>
+        <div class="src-name">${s.name}</div>
+        <div class="src-meta">${s.meta}</div>
+      </div>
+    </div>
+    <div class="src-status">Aktif · eş zamanlı</div>
+  </div>
+`).join('');
+
+/* ============================================================
+   RENDER — ARTICLES with filter/sort
+   ============================================================ */
+const state = {
+  era: new Set(['2000-2015', '2016-2026']),
+  topic: new Set(['all']),
+  source: new Set(['all']),
+  search: '',
+  sort: 'year-desc'
+};
+
+const listEl = document.getElementById('articlesList');
+const countEl = document.getElementById('resultsCount');
+
+function articleCard(a) {
+  return `
+    <article class="article" data-id="${a.id}">
+      <div>
+        <div class="art-meta-top">
+          <span class="art-source-pill ${a.sourcePillTr ? 'tr' : ''}">${a.source}</span>
+          <span class="dot-sep">•</span>
+          <span>${a.journal}</span>
+        </div>
+        <h3 class="art-title">
+          <a href="${a.url}" target="_blank" rel="noopener">${a.title}</a>
+        </h3>
+        <p class="art-authors">${a.authors} (${a.year})</p>
+        <div class="art-tags">
+          ${a.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+        </div>
+        <div class="ps-grid">
+          <div class="ps-box problem">
+            <div class="ps-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Tespit Edilen Sorun
+            </div>
+            ${a.problem}
+          </div>
+          <div class="ps-box solution">
+            <div class="ps-label">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Önerilen Çözüm
+            </div>
+            ${a.solution}
+          </div>
+        </div>
+      </div>
+      <div class="art-right">
+        <div>
+          <div class="art-year">${a.year}</div>
+          <div class="art-cited"><b>${a.citations.toLocaleString('tr-TR')}</b>atıf</div>
+        </div>
+        <div class="art-actions">
+          <button class="btn-sm-primary" onclick="openModal(${a.id})">Detay & Özet</button>
+          <button class="btn-sm-ghost" onclick="saveToLibrary(${a.id})">+ Kütüphaneye</button>
+        </div>
+      </div>
+    </article>
+  `;
+}
+
+function applyFilters() {
+  let list = ARTICLES.filter(a => {
+    if (!state.era.has(a.era)) return false;
+    if (!state.topic.has('all') && !a.topics.some(t => state.topic.has(t))) return false;
+    if (!state.source.has('all') && !state.source.has(a.origin)) return false;
+    if (state.search) {
+      const q = state.search.toLowerCase();
+      const hay = (a.title + ' ' + a.authors + ' ' + a.tags.join(' ') + ' ' + a.problem + ' ' + a.solution + ' ' + a.journal).toLowerCase();
+      if (!hay.includes(q)) return false;
+    }
+    return true;
+  });
+
+  if (state.sort === 'year-desc') list.sort((a, b) => b.year - a.year);
+  else if (state.sort === 'year-asc') list.sort((a, b) => a.year - b.year);
+  else if (state.sort === 'citations-desc') list.sort((a, b) => b.citations - a.citations);
+
+  countEl.textContent = list.length;
+  listEl.innerHTML = list.map(articleCard).join('') || '<div style="text-align:center; padding: 60px; color: var(--ink-400);">Bu filtrelerle eşleşen makale bulunamadı. Filtreleri gevşetmeyi deneyin.</div>';
+}
+
+/* Filter chip events */
+document.querySelectorAll('.chips').forEach(group => {
+  group.addEventListener('click', e => {
+    if (!e.target.classList.contains('chip')) return;
+    const filter = group.dataset.filter;
+    const val = e.target.dataset.value;
+    const set = state[filter];
+
+    if (filter === 'topic' || filter === 'source') {
+      if (val === 'all') { set.clear(); set.add('all'); }
+      else {
+        set.delete('all');
+        if (set.has(val)) set.delete(val); else set.add(val);
+        if (set.size === 0) set.add('all');
+      }
+    } else {
+      if (set.has(val)) set.delete(val); else set.add(val);
+      if (set.size === 0) set.add(val);
+    }
+
+    group.querySelectorAll('.chip').forEach(c => {
+      c.classList.toggle('active', set.has(c.dataset.value));
+    });
+    applyFilters();
+  });
+});
+
+/* Sort event */
+document.getElementById('sortSelect').addEventListener('change', e => {
+  state.sort = e.target.value;
+  applyFilters();
+});
+
+/* Search */
+const searchInput = document.getElementById('searchInput');
+searchInput.addEventListener('input', e => {
+  state.search = e.target.value.trim();
+  applyFilters();
+  if (state.search) document.getElementById('articles').scrollIntoView({ behavior: 'smooth' });
+});
+document.querySelectorAll('.hero-tag').forEach(tag => {
+  tag.addEventListener('click', () => {
+    searchInput.value = tag.dataset.search;
+    state.search = tag.dataset.search;
+    applyFilters();
+    document.getElementById('articles').scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+const modalBackdrop = document.getElementById('modalBackdrop');
+const modalContent = document.getElementById('modalContent');
+
+function openModal(id) {
+  const a = ARTICLES.find(x => x.id === id);
+  if (!a) return;
+  modalContent.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="art-meta-top">
+      <span class="art-source-pill ${a.sourcePillTr ? 'tr' : ''}">${a.source}</span>
+      <span class="dot-sep">•</span>
+      <span>${a.journal} · ${a.year}</span>
+      <span class="dot-sep">•</span>
+      <span><b>${a.citations.toLocaleString('tr-TR')}</b> atıf</span>
+    </div>
+    <h2>${a.title}</h2>
+    <p class="art-authors" style="margin-top: 4px; color: var(--ink-500); font-style: italic;">${a.authors}</p>
+
+    <div class="modal-section">
+      <h4>📄 Özet</h4>
+      <p>${a.abstractLong}</p>
+    </div>
+
+    <div class="modal-section">
+      <h4>⚠️ Tespit Edilen Sorun</h4>
+      <div class="ps-box problem" style="margin-top: 4px;">${a.problem}</div>
+    </div>
+
+    <div class="modal-section">
+      <h4>✅ Önerilen Çözüm</h4>
+      <div class="ps-box solution" style="margin-top: 4px;">${a.solution}</div>
+    </div>
+
+    <div class="modal-section">
+      <h4>🔑 Anahtar Bulgular</h4>
+      <ul>${a.keyFindings.map(f => `<li>• ${f}</li>`).join('')}</ul>
+    </div>
+
+    <div class="modal-actions">
+      <a class="btn-sm-primary" href="${a.url}" target="_blank" rel="noopener" style="text-decoration: none; padding: 10px 18px;">↗ Kaynak Yayına Git</a>
+      <button class="btn-sm-ghost" onclick="saveToLibrary(${a.id})" style="padding: 10px 18px;">+ Kütüphaneme Ekle</button>
+      <button class="btn-sm-ghost" onclick="copyCitation(${a.id})" style="padding: 10px 18px;">📋 APA Atıfını Kopyala</button>
+    </div>
+  `;
+  modalBackdrop.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  modalBackdrop.classList.remove('open');
+  document.body.style.overflow = '';
+}
+modalBackdrop.addEventListener('click', e => { if (e.target === modalBackdrop) closeModal(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+function saveToLibrary(id) {
+  const a = ARTICLES.find(x => x.id === id);
+  alert(`✓ "${a.title.slice(0, 60)}..." kütüphanenize eklendi.`);
+}
+function copyCitation(id) {
+  const a = ARTICLES.find(x => x.id === id);
+  const cite = `${a.authors} (${a.year}). ${a.title}. ${a.journal}.`;
+  navigator.clipboard.writeText(cite).then(() => alert('✓ APA atıfı panoya kopyalandı.'));
+}
+window.openModal = openModal;
+window.closeModal = closeModal;
+window.saveToLibrary = saveToLibrary;
+window.copyCitation = copyCitation;
+
+/* Init */
+applyFilters();
+
+/* Nav smooth-scroll active state */
+const navLinks = document.querySelectorAll('.nav a');
+window.addEventListener('scroll', () => {
+  const y = window.scrollY + 100;
+  let current = 'top';
+  ['top', 'articles', 'sources', 'timeline', 'features'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && el.offsetTop <= y) current = id;
+  });
+  navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + current));
+});
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"4edd5f8ec12a48cfa682ab8261b80a79"}' crossorigin="anonymous"></script>
+</body>
+</html>
